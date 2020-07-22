@@ -1,0 +1,152 @@
+{% extends "judge/base.html" %}
+{% block content %}
+
+<main role="main" class="container">
+   <div class="row">
+
+   <div class="col-md-8 ">
+    <h3>Contests
+   </h3>
+   <hr>
+
+  <div id="demo" class="carousel slide" data-ride="carousel">
+  <ul class="carousel-indicators">
+     {% for event,isactive in events%}
+     <li data-target="#demo" data-slide-to="{{ forloop.counter | add:'-1'}}" {%if forloop.counter == 1%}class="active"{% endif %}></li>
+     {% endfor %}
+  </ul>
+ <div class="carousel-inner">
+  {% for event,isactive in events %}
+  
+    <div class="carousel-item {%if forloop.counter == 1%}active{% endif %}">
+      <img style="filter:brightness(40%)" src="{{event.image.url}}" alt="{{event.event}}" width=100% height=100%>
+      <div class="carousel-caption">
+        
+        <h2 class="text-white hyp">{{event.event}}</h2>{% if isactive %}<a href="{% url 'event' event.id %}"><small class="badge badge-success">Go to contest</small></a>{% endif %}
+        <br>
+        <small class="text-light"><i class="fas fa-clock"></i> {{event.start_time}} - {{event.end_time}}</small>
+      </div>   
+    </div>
+
+  {% endfor %}
+    </div>
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
+<hr>
+<br><br>
+   <h3>Trending Problems
+   </h3>
+    <div class="row">
+  <div class="col-1" style="font-size:10px"><center>#<center></div>
+  <div class="col-3" style="font-size:10px"><center>NAME</center></div>
+  <div class="col-3" style="font-size:10px"><center>TAGS</center></div>
+  <div class="col-1" style="font-size:10px"><center>AUTH</center></div>
+  <div class="col-1" style="font-size:10px"><center>SUB.</center></div>
+  <div class="col-3" style="font-size:10px"><center>ACC%</center></div>
+  </div>
+  <hr>
+
+   {% for problem in problems %}
+ 
+
+ <div class="shadow-lg p-3 mb-2 bg-white rounded">
+  <div class="row">
+
+  <div class="col-1" id="prob{{forloop.counter}}"></div>
+<script>
+ 
+     $('#prob{{forloop.counter}}').html($.urlParam('page')*10+{{ forloop.counter }}-10);
+  </script>
+  {% if problem.difficulty == "Easy" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-success">Easy</span></center></a></div>
+
+  {% elif problem.difficulty == "Medium" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-info">Medium</span></center></a></div>
+
+    {% elif problem.difficulty == "Hard" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-warning">Hard</span></center></a></div>
+
+   {% elif problem.difficulty == "Expert" %}
+  <div class="col-3"><a href="{% url 'detail' problem.id %}"><center>{{problem.title}} <span class="badge badge-danger">Expert</span></center></a></div>
+  {% endif %}
+
+
+  <div class="col-3">
+  
+  <p>
+  <a  data-toggle="collapse" href="#collapseExample{{ forloop.counter }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+   <center><i class="fas fa-list-ul"></i></center>
+
+  </a>
+  </p>
+
+
+<div class="collapse" id="collapseExample{{ forloop.counter }}">
+  <div class="card card-body">
+   {% for tag in problem.problem_tags_set.all %}
+   <p style="font-size:1vw">{{tag}}</p>
+   {%endfor%}
+  </div>
+</div>
+
+</div>
+
+  <div class="col-1"><center>{{problem.auth}}</center></div>
+  <div class="col-1"><center>{{ problem.problem_feature.total_submission }}</center></div>
+  <div class="col-3"> <p class="card-text mb-1"><div class="progress">
+   <div class="progress-bar text-light" role="progressbar" style="color:black; width: {{ problem.problem_feature.accuracy}}%;" aria-valuenow="{{ problem.problem_feature.accuracy }}" aria-valuemin="0" aria-valuemax="100">{{ problem.problem_feature.accuracy }}%</div>
+    </div></div>
+  
+  </div>
+  </div>
+   {% endfor %}
+
+   </div>
+    <div class="col-md-4">
+     <br><br>
+      <div class="mt-2">
+        <a href="{% url 'problem' %}" ><button style="width:100%" class="btnn"><i style="color:rgba(147,101,184,0.8);" class="fas fa-file"></i>  Problem Set</button></a>
+        </div>
+       <div class="mt-2">
+        <a href="{% url 'addproblem' %}" ><button style="width:100%" class="btnn"><i style="color:rgba(147,101,184,0.8);" class="fas fa-plus"></i> Add Problem</button></a>
+        </div>
+         <div class="mt-2 mb-2">
+         <a href="{% url 'users' %}" ><button style="width:100%" class="btnn"><i style="color:rgba(147,101,184,0.8);" class="fas fa-user"></i>  Users</button></a>
+         
+         </div>
+         <br><br>
+        <div class="content-section">
+          <h3>Contests</h3>
+          <p class='text-muted'>Upcoming Events.
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-light">CodeFiesta, Rated - August 15,2020 </li>
+              <li class="list-group-item list-group-item-light">Electra,Unrated - July 30,2020</li>
+              <li class="list-group-item list-group-item-light">HackItUp,Practice - Sept. 1,2020</li>
+              <li class="list-group-item list-group-item-light">Reverso,Rated - Sept. 3,2020</li>
+              
+            </ul>
+          </p>
+        </div>
+      </div>
+      </div>
+ 
+    
+
+
+
+
+
+ </main>
+
+  
+
+
+
+  
+
+{% endblock content %}

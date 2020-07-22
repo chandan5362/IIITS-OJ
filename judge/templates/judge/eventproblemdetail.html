@@ -1,0 +1,59 @@
+{% extends "judge/base.html" %}
+{% block content %}
+<link href="/static/froala_editor/css/froala_style.min.css" type="text/css" media="all" rel="stylesheet">
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8 offset-2">
+      <center><h3>{{problem.title}}</h3></center>
+ <hr>
+ <br>
+ 
+  <div class="fr-view">
+ {{ problem.statement | safe }}
+</div>
+<hr>
+  <h4>Input</h4>
+  <p class=" card-text article-content">{{problem.input_format}}</p><hr>
+   <h4>Output</h4>
+  <p class=" card-text article-content">{{problem.output_format}}</p><hr>
+     <h4>Constraints</h4>
+  <div class="fr-view">
+ {{ problem.constraint | safe }}
+   </div><hr>
+  <h4>Example Input</h4>
+  <div class="card bg-dark mb-3" style="max-width: 100%%;">
+  <div class="card-body">
+    <p style="font-family:Courier New;color:lime" class="card-text article-content">{{problem.sample_input}}</p>
+  </div>
+</div><hr>
+<h4>Example Output</h4>
+  <div class="card bg-dark mb-3" style="max-width: 100%%;">
+  <div class="card-body">
+    <p style="font-family:Courier New;color:lime" class="card-text article-content">{{problem.sample_output}}</p>
+  </div>
+</div><hr>
+      
+      <h4>Explaination</h4>
+  <p class=" card-text article-content">{{problem.explaination}}</p><hr>
+
+   <center>
+   <br>
+   <a href="submit/"><button class="btn btn-secondary">Submit</button></a>
+   <div style="margin-bottom:20px">
+      </div>
+   
+   </center>
+
+        
+        
+      </div>
+      
+
+  </main>
+
+
+
+
+
+  
+{% endblock content %}
